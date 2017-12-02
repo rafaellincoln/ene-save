@@ -1,94 +1,143 @@
 import React from 'react'
-import Form from 'react-jsonschema-form'
+import {
+  TextField,
+  RadioButtonGroup,
+  RadioButton,
+} from 'material-ui'
 import style from './CalledPageMainContainer.css'
+
+const styles = {}
 
 class CalledPageMainContainer extends React.Component {
   componentWillMount() {
   }
 
   render() {
-    const formData = {
-      title: '',
-    }
-    const schema = {
-      title: '',
-      description: '',
-      type: 'object',
-      // required: [
-      //   'firstName',
-      //   'lastName',
-      // ],
-      properties: {
-        employeeName: {
-          type: 'string',
-          title: 'Nome do colaborador',
-        },
-        phone: {
-          type: 'string',
-          title: 'Telefone',
-        },
-        city: {
-          type: 'string',
-          title: 'Municipio',
-        },
-        address: {
-          type: 'string',
-          title: 'Endereço',
-        },
-        number: {
-          type: 'string',
-          title: 'Numero',
-        },
-        neighborhood: {
-          type: 'string',
-          title: 'Bairro',
-        },
-        ref: {
-          type: 'string',
-          title: 'Referência',
-        },
-        patientName: {
-          type: 'string',
-          title: 'Nome do Paciente',
-        },
-        patientComplaint: {
-          type: 'string',
-          title: 'Queixa do Paciente',
-        },
-        gender: {
-          type: 'string',
-          title: '',
-          enum: ['M', 'F'],
-          enumNames: ['Masculino', 'Feminino'],
-        },
-      },
-    }
-
-    const uiSchema = {
-      gender: {
-        'ui:widget': 'radio',
-        'ui:options': {
-          inline: true,
-        },
-      },
-    }
-
-    const log = type => console.log.bind(console, type)
-
     return (
-      <div className={style.mainContainer}>
-        MAIN CONTAINER
-        <Form
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}
-          onChange={log('changed')}
-          onSubmit={log('submitted')}
-          onError={log('errors')}
-        />
+      <div className={`Grid Grid--withGutter Grid--alignMiddle ${style.mainContainer}`}>
+        <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell u-size10of12">
+          <div className="Grid Grid--withGutter Grid--alignMiddle">
+            <div className="Grid-cell u-size8of12">
+              <h2>Cadastro do chamado</h2>
+            </div>
+            <div className="Grid-cell u-size4of12">
+              <button>Salvar</button>
+            </div>
+            <div className="Grid-cell u-size8of12">
+              <TextField
+                floatingLabelText="Nome do colaborador"
+                fullWidth
+              />
+            </div>
+            <div className="Grid-cell u-size4of12">
+              <TextField
+                floatingLabelText="Telefone"
+                fullWidth
+              />
+            </div>
+            <div className="Grid-cell">
+              <div className="Grid Grid--withGutter Grid--alignMiddle">
+                <div className="Grid-cell u-size6of12">
+                  <TextField
+                    floatingLabelText="Municipio"
+                    fullWidth
+                  />
+                </div>
+                <div className="Grid-cell u-size8of12">
+                  <TextField
+                    floatingLabelText="Endereço"
+                    fullWidth
+                  />
+                </div>
+                <div className="Grid-cell u-size4of12">
+                  <TextField
+                    floatingLabelText="Número"
+                    fullWidth
+                  />
+                </div>
+                <div className="Grid-cell u-size4of12">
+                  <TextField
+                    floatingLabelText="Bairro"
+                    fullWidth
+                  />
+                </div>
+                <div className="Grid-cell u-size8of12">
+                  <TextField
+                    floatingLabelText="Referência"
+                    fullWidth
+                  />
+                </div>
+                <div className="Grid-cell u-size8of12">
+                  <TextField
+                    floatingLabelText="Nome da Vítima"
+                    fullWidth
+                  />
+                </div>
+                <div className="Grid-cell u-size4of12">
+                  <RadioButtonGroup name="gender" defaultSelected="M">
+                    <RadioButton
+                      value="M"
+                      label="Masculino"
+                      style={styles.radioButton}
+                    />
+                    <RadioButton
+                      value="F"
+                      label="Feminino"
+                      style={styles.radioButton}
+                    />
+                  </RadioButtonGroup>
+                </div>
+                <div className="Grid-cell">
+                  <TextField
+                    floatingLabelText="Queixa da vítima"
+                    fullWidth
+                    multiLine
+                    rows={2}
+                    rowsMax={4}
+                  />
+                </div>
+                <div className="Grid-cell u-size4of12">
+                  <RadioButtonGroup name="gender" defaultSelected="M" style={styles.radioButtonGroup}>
+                    <RadioButton
+                      value="N"
+                      label="Não"
+                      style={styles.radioButton}
+                    />
+                    <RadioButton
+                      value="S"
+                      label="Sim"
+                      style={styles.radioButton}
+                    />
+                  </RadioButtonGroup>
+                </div>
+                <div className="Grid-cell">
+                  <TextField
+                    floatingLabelText="Observação"
+                    fullWidth
+                    multiLine
+                    rows={2}
+                    rowsMax={4}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="Grid-cell u-size1of12" />
       </div>
     )
   }
+}
+
+styles.radioButton = {
+  display: 'inline-block',
+  marginRight: '10px',
+  width: 'auto',
+}
+
+styles.radioButtonGroup = {
+  marginTop: 10,
 }
 
 export default CalledPageMainContainer

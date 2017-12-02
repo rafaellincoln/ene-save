@@ -14,10 +14,10 @@ module.exports = {
       './client/src/app.js',
     ],
     globals: [
-      './client/styles-dep/globals/custom.css',
       './client/styles-dep/globals/fonts.css',
       './client/styles-dep/globals/suitcss.css',
       './client/styles-dep/globals/bootstrap.css',
+      './client/styles-dep/globals/custom.css',
       // CSS globais do projeto
     ],
   },
