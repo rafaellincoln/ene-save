@@ -12,11 +12,11 @@ class Sidebar extends React.Component {
           <a href="#" className={`list-group-item ${style.sidebarLogo}`}>
             <img src="/images/logo.png" />
           </a>
-          <a href="#" className={`list-group-item ${style.sidebarList}`}>
+          <a href="/chamado" className={`list-group-item ${style.sidebarList}`}>
             <p>Chamado</p>
           </a>
-          <a href="#" className={`list-group-item ${style.sidebarList}`}>
-            <p>Despacho</p>
+          <a href="/ocorrencia" className={`list-group-item ${style.sidebarList}`}>
+            <p>Ocorrência</p>
           </a>
           <a href="#" className={`list-group-item ${style.sidebarList}`}>
             <p>Equipe Médica</p>

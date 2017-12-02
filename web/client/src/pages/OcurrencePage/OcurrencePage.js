@@ -1,5 +1,7 @@
 import React from 'react'
-import style from './OcurrencePage.css'
+// import style from './OcurrencePage.css'
+import Sidebar from '../../components/Sidebar/Sidebar'
+import OcurrencePageMainContainer from '../../components/OcurrencePageMainContainer/OcurrencePageMainContainer'
 
 class OcurrencePage extends React.Component {
   componentWillMount() {
@@ -7,8 +9,9 @@ class OcurrencePage extends React.Component {
 
   render() {
     return (
-      <div className={style.landing}>
-        OCURRENCE PAGE
+      <div>
+        <Sidebar />
+        <OcurrencePageMainContainer />
       </div>
     )
   }
