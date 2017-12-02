@@ -1,0 +1,7 @@
+.sidebar {
+  background-color: #f1924b;
+  display: inline-block;
+  height: 100%;
+  position: fixed;
+  width: 200px;
+}

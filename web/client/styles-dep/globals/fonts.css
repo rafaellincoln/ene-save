@@ -1,0 +1,58 @@
+@font-face {
+	font-family: 'Chantilly-Serial';
+	src:
+	/*url('../../src/assets/fonts/Chantilly-Serial-Regular.woff') format('woff'),*/
+		/*url('../../src/assets/fonts/Chantilly-Serial-Regular.woff2') format('woff2');*/
+		url('../../src/assets/fonts/Chantilly-Serial-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Chantilly-Serial';
+	src:
+	/*url('../../src/assets/fonts/Chantilly-Serial-Medium-Regular.woff') format('woff'),*/
+		/*url('../../src/assets/fonts/Chantilly-Serial-Medium-Regular.woff2') format('woff2');*/
+		url('../../src/assets/fonts/Chantilly-Serial-Medium-Regular.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Chantilly-Serial';
+	src:
+	/*url('../../src/assets/fonts/Chantilly-Serial-Light-Regular.woff') format('woff'),*/
+		/*url('../../src/assets/fonts/Chantilly-Serial-Light-Regular.woff2') format('woff2');*/
+		url('../../src/assets/fonts/Chantilly-Serial-Light-Regular.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+
+/* ---------------------------------------------------------------------------------------------- */
+
+body {
+  font-family: 'Chantilly-Serial' !important;
+  font-size: 1em;
+  line-height: 1.4;
+	font-weight: 300;
+}
+
+strong,
+b,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+	font-family: 'Chantilly-Serial' !important;
+}
+
+.icon {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+}

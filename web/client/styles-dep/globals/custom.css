@@ -1,0 +1,162 @@
+html {
+  height: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+a {
+    outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:active {
+  outline: none;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+.ReactModal__Body--open {
+  overflow-y: scroll;
+}
+
+.SelectBkg {
+  -webkit-appearance: none !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+.SelectBkg:hover {
+  background-color: #eee !important;
+}
+
+.SelectBkg:active {
+  color: rgb(0, 174, 239) !important;
+}
+
+.noPrint {
+  display: block;
+}
+
+.filter {
+  display: none;
+}
+
+.btnDefault {
+  padding: 10px 24px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-radius: 100px;
+  cursor: pointer;
+  text-align: center;
+  word-break: normal;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: normal;
+  box-sizing: border-box;
+  line-height: 20px;
+  min-width: 186px;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+    transition-delay: background-color 5000s, color 5000s;
+}
+
+input[type=text]::-ms-clear { display: none; width : 0; height: 0; }
+
+input[type=text]::-ms-reveal { display: none; width : 0; height: 0; }
+
+input[type=password]::-ms-clear { display: none; width : 0; height: 0; }
+
+input[type=password]::-ms-reveal { display: none; width : 0; height: 0; }
+
+/**
+  Slick-react
+**/
+.slick-active{
+  border-color: #44afb6 !important;
+}
+
+.slick-list{
+  overflow: hidden;
+}
+
+/**
+  Slick-react
+**/
+
+@media print {
+
+  @page {
+    size: A4 portrait;
+    margin: 1cm!important;
+    orphans: 0; 
+    widows: 0;
+  }
+
+  body {
+    min-height: auto !important;
+    position: initial !important;
+  }
+
+  p, span, div {
+    color: #000;
+  }
+  
+  .wrapper {
+    top: 0;
+  }
+
+  svg, button {
+    display: none !important;
+  }
+
+  .Grid {
+    display: block !important;
+    flex-flow: unset !important;
+  }
+
+  .Grid-cell {
+    flex-basis: unset !important;
+    display: inline-block !important;
+  }
+
+  .noPrint{
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important; 
+    height: 0 !important;
+    width: 0 !important;
+  }
+
+  .page-break {
+    display: block !important;
+    page-break-after: auto !important;
+    height: 100% !important;
+    max-height: auto !important;
+    min-height: auto !important;
+  }
+
+  .infoPrint {
+    font-size: 18px !important;
+    font-weight: normal !important;
+  }
+  .contentMedia {
+    width: 1024px !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
