@@ -53,3 +53,101 @@ ADD CONSTRAINT fk_patient_occurrence FOREIGN KEY (id_occurrence) REFERENCES occu
 
 COMMENT ON COLUMN occurrence.id_occurrence
   IS 'Occurrence ID';
+
+COMMET ON COLUMN occurrence.id_resource 
+  IS 'Resource ID';
+
+COMMET ON COLUMN occurrence.name_solicitant 
+  IS 'Name Solicitant';
+
+COMMENT ON COLUMN occurrence.phone
+  IS 'Phone of Occurrence';
+
+COMMENT ON COLUMN occurrence.city
+  IS 'City of Occurrence';
+
+COMMENT ON COLUMN occurrence.address
+  IS 'Address of Occurence';
+
+COMMENT ON COLUMN occurrence.number_address
+  IS 'Number Address of Ocurrence';
+
+COMMENT ON COLUMN occurrence.complement
+  IS 'Complement Address of Ocurrence';
+
+COMMENT ON COLUMN occurrence.neighborhood
+  IS 'Neighborhood Adress of Ocurrence';
+
+COMMENT ON COLUMN occurrence.reference_address
+  IS 'Reference Address of Ocurrence';
+
+COMMENT ON COLUMN occurrence.gender
+  IS 'Gender';
+
+COMMENT ON COLUMN occurrence.age
+  IS 'Age';
+
+COMMENT ON COLUMN occurrence.complaint_patient
+  IS 'Complaint Patient';
+
+COMMENT ON COLUMN occurrence.comments
+  IS 'Comments Ocurrence';
+
+COMMENT ON COLUMN occurrence.emergency
+  IS 'Emergency: Yes or no';
+
+COMMENT ON COLUMN occurrence.status
+  IS 'Status of Ocurrence: 1- Open,
+  2- Closed';
+
+COMMENT ON COLUMN patient.id_patient
+  IS 'ID Patient';
+
+COMMENT ON COLUMN patient.name_patient
+  IS 'Name Patient';
+
+COMMENT ON COLUMN patient.year_age
+  IS 'Year of Age';
+
+COMMENT ON COLUMN patient.blood_type
+  IS 'Types of Blood';
+
+COMMENT ON COLUMN patient.gender
+  IS 'Gender: 1- Male,
+  2- Female';
+
+COMMENT ON COLUMN patient.allergy
+  IS 'Types of drug allergies';
+
+COMMENT ON COLUMN occurrence_patient.id_occurrence_patient
+  IS 'ID Occurence Patient';
+
+COMMENT ON COLUMN occurrence_patient.id_patient
+  IS 'ID Patient';
+
+COMMENT ON COLUMN occurrence_patient.id_occurrence
+  IS 'ID Ocurrence';
+
+COMMENT ON COLUMN occurrence_patient.informations_patient
+  IS 'Informations of Patient';
+
+COMMENT ON COLUMN occurrence_patient.multimedia_communication
+  IS 'Communication multimedias';
+
+COMMENT ON COLUMN resource.id_resource
+  IS 'ID Resource';
+
+COMMENT ON COLUMN resource.board_resource
+  IS 'Board Resource';
+
+COMMENT ON COLUMN resource.number_address
+  IS 'Number Resource';
+
+COMMENT ON COLUMN resource.status_resource
+  IS 'Status of Resource:
+  1- Activated,
+  2- Stoped,
+  3- Disabled';
+
+COMMENT ON COLUMN resource.location
+  IS 'Location of Resource';
