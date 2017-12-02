@@ -5,6 +5,8 @@ import {
   RadioButton,
 } from 'material-ui'
 import style from './CalledPageMainContainer.css'
+import ContentSubtitle from '../ContentSubtitle/ContentSubtitle'
+import ContentTitle from '../ContentTitle/ContentTitle'
 
 const styles = {}
 
@@ -15,14 +17,14 @@ class CalledPageMainContainer extends React.Component {
   render() {
     return (
       <div className={`Grid Grid--withGutter Grid--alignMiddle ${style.mainContainer}`}>
+        <div className="Grid-cell">
+          <ContentTitle title="Cadastro do chamado" hasButton />
+        </div>
         <div className="Grid-cell u-size1of12" />
         <div className="Grid-cell u-size10of12">
           <div className="Grid Grid--withGutter Grid--alignMiddle">
-            <div className="Grid-cell u-size8of12">
-              <h2>Cadastro do chamado</h2>
-            </div>
-            <div className="Grid-cell u-size4of12">
-              <button>Salvar</button>
+            <div className="Grid-cell">
+              <ContentSubtitle title="Dados do contribuinte" />
             </div>
             <div className="Grid-cell u-size8of12">
               <TextField
@@ -35,6 +37,9 @@ class CalledPageMainContainer extends React.Component {
                 floatingLabelText="Telefone"
                 fullWidth
               />
+            </div>
+            <div className="Grid-cell">
+              <ContentSubtitle title="Local do Acidente" />
             </div>
             <div className="Grid-cell">
               <div className="Grid Grid--withGutter Grid--alignMiddle">
@@ -68,6 +73,9 @@ class CalledPageMainContainer extends React.Component {
                     fullWidth
                   />
                 </div>
+                <div className="Grid-cell">
+                  <ContentSubtitle title="Dados da vítima" />
+                </div>
                 <div className="Grid-cell u-size8of12">
                   <TextField
                     floatingLabelText="Nome da Vítima"
@@ -98,7 +106,7 @@ class CalledPageMainContainer extends React.Component {
                   />
                 </div>
                 <div className="Grid-cell u-size4of12">
-                  <RadioButtonGroup name="gender" defaultSelected="M" style={styles.radioButtonGroup}>
+                  <RadioButtonGroup name="medica-emergency" defaultSelected="N" style={styles.radioButtonGroup}>
                     <RadioButton
                       value="N"
                       label="Não"
