@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import style from './OcurrencePageMainContainer.css'
 // import ContentSubtitle from '../ContentSubtitle/ContentSubtitle'
 import ContentTitle from '../ContentTitle/ContentTitle'
+import Map from '../Map/Map'
 
 const styles = {}
 
@@ -16,15 +17,14 @@ class OcurrencePageMainContainer extends React.Component {
   }
 
   render() {
-    const map = new Map()
     return (
       <div className={`Grid Grid--withGutter Grid--alignMiddle ${style.mainContainer}`}>
         <div className="Grid-cell">
           <ContentTitle title="Despacho" />
         </div>
         <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size10of12">
-          <map />
+        <div className={`Grid-cell u-size10of12 ${style.containerMap}`}>
+          <Map />
         </div>
         <div className="Grid-cell u-size1of12" />
       </div>
