@@ -6,6 +6,7 @@ import {
   AutoComplete,
 } from 'material-ui'
 import request from 'superagent'
+import PropTypes from 'prop-types'
 import urls from '../../../../server/constant/urls'
 import style from './CalledPageMainContainer.css'
 import ContentSubtitle from '../ContentSubtitle/ContentSubtitle'
@@ -32,6 +33,7 @@ class CalledPageMainContainer extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleOnNewRequest = this.handleOnNewRequest.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.renderButton = this.renderButton.bind(this)
   }
 
   handleChange(ev, newValue) {
@@ -57,6 +59,15 @@ class CalledPageMainContainer extends React.Component {
           console.log('res: ', res)
         })
     }
+  }
+
+  renderButton() {
+    if (!this.props.hasButton) { return null }
+    return (
+      <div className="Grid-cell u-size3of12">
+        <button onClick={this.props.onClick}>Salvar</button>
+      </div>
+    )
   }
 
   render() {
@@ -221,6 +232,10 @@ class CalledPageMainContainer extends React.Component {
   }
 }
 
+styles.bottom = {
+  paddingBottom: '60px',
+}
+
 styles.radioButton = {
   display: 'inline-block',
   marginRight: '10px',
@@ -231,4 +246,10 @@ styles.radioButtonGroup = {
   marginTop: 10,
 }
 
+CalledPageMainContainer.propTypes = {
+  onClick: PropTypes.func,
+  hasButton: PropTypes.bool,
+}
+
 export default CalledPageMainContainer
+
