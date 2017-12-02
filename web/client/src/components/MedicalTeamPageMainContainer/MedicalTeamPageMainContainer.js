@@ -1,14 +1,12 @@
 import React from 'react'
-// import {
-//   TextField,
+import {
+  TextField,
 //   RadioButtonGroup,
 //   RadioButton,
-// } from 'material-ui'
+ } from 'material-ui'
 import style from './MedicalTeamPageMainContainer.css'
-// import ContentSubtitle from '../ContentSubtitle/ContentSubtitle'
 import ContentTitle from '../ContentTitle/ContentTitle'
-
-const styles = {}
+import ContentSubtitle from '../ContentSubtitle/ContentSubtitle'
 
 class MedicalTeamPageMainContainer extends React.Component {
   componentWillMount() {
@@ -20,22 +18,63 @@ class MedicalTeamPageMainContainer extends React.Component {
         <div className="Grid-cell">
           <ContentTitle title="Equipe Médica" />
         </div>
+        <div className={`Grid-cell u-size1of12 ${style.padding}`} />
+        <div className="Grid-cell u-size10of12">
+          <TextField
+            name=""
+            floatingLabelText="Dados"
+            fullWidth
+            onChange={this.handleChange}
+          />
+        </div>
         <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size10of12" />
         <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell u-size7of12">
+          <TextField
+            name=""
+            floatingLabelText="Dados"
+            fullWidth
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className="Grid-cell u-size3of12">
+          <TextField
+            name=""
+            floatingLabelText="Dados"
+            fullWidth
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell">
+          <ContentSubtitle title="Local do Acidente" />
+        </div>
+        <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell u-size10of12">
+          <TextField
+            name=""
+            floatingLabelText="Dados"
+            fullWidth
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell u-size10of12">
+          <TextField
+            name="comments"
+            floatingLabelText="Dados"
+            fullWidth
+            multiLine
+            rows={2}
+            rowsMax={4}
+            onChange={this.handleChange}
+          />
+          <div className="Grid-cell u-size1of12" />
+        </div>
       </div>
     )
   }
-}
-
-styles.radioButton = {
-  display: 'inline-block',
-  marginRight: '10px',
-  width: 'auto',
-}
-
-styles.radioButtonGroup = {
-  marginTop: 10,
 }
 
 export default MedicalTeamPageMainContainer
