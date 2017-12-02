@@ -1,6 +1,7 @@
 import React from 'react'
 import LandingPage from './pages/LandingPage/LandingPage'
 import CalledPage from './pages/CalledPage/CalledPage'
+import OcurrencePage from './pages/OcurrencePage/OcurrencePage'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/chamado',
     exact: true,
     main: () => <CalledPage />,
+  },
+  {
+    path: '/ocorrencia',
+    exact: true,
+    main: () => <OcurrencePage />,
   },
 ]
 
