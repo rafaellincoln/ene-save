@@ -55,14 +55,20 @@ class CalledPageMainContainer extends React.Component {
           type: 'string',
           title: 'Queixa do Paciente',
         },
-        numberEnumRadio: {
-          type: 'number',
-          title: 'Number enum',
-          enum: [
-            1,
-            2,
-            3,
-          ],
+        gender: {
+          type: 'string',
+          title: '',
+          enum: ['M', 'F'],
+          enumNames: ['Masculino', 'Feminino'],
+        },
+      },
+    }
+
+    const uiSchema = {
+      gender: {
+        'ui:widget': 'radio',
+        'ui:options': {
+          inline: true,
         },
       },
     }
@@ -74,6 +80,7 @@ class CalledPageMainContainer extends React.Component {
         MAIN CONTAINER
         <Form
           schema={schema}
+          uiSchema={uiSchema}
           formData={formData}
           onChange={log('changed')}
           onSubmit={log('submitted')}
