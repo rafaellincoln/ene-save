@@ -9,16 +9,16 @@ class Sidebar extends React.Component {
     return (
       <div className={style.sidebar}>
         <div className="group-item">
-          <a href="#" className={`list-group-item ${style.sidebarLogo}`}>
+          <a href="/" className={`list-group-item ${style.sidebarLogo}`}>
             <img src="/images/logo.png" />
           </a>
           <a href="/chamado" className={`list-group-item ${style.sidebarList}`}>
-            <p>Chamado</p>
+            <p>Criar Chamado</p>
           </a>
-          <a href="/ocorrencia" className={`list-group-item ${style.sidebarList}`}>
-            <p>Ocorrência</p>
+          <a href="/despacho" className={`list-group-item ${style.sidebarList}`}>
+            <p>Despacho</p>
           </a>
-          <a href="#" className={`list-group-item ${style.sidebarList}`}>
+          <a href="/equipe-medica" className={`list-group-item ${style.sidebarList}`}>
             <p>Equipe Médica</p>
           </a>
         </div>

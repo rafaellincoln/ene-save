@@ -9,6 +9,7 @@ class ContentSubtitle extends React.Component {
   }
 
   renderButton() {
+    if (!this.props.hasButton) { return null }
     return (
       <div className="Grid-cell u-size3of12">
         <button onClick={this.props.onClick}>Salvar</button>
@@ -33,6 +34,7 @@ class ContentSubtitle extends React.Component {
 ContentSubtitle.propTypes = {
   title: PropTypes.string,
   onClick: PropTypes.func,
+  hasButton: PropTypes.bool,
 }
 
 export default ContentSubtitle

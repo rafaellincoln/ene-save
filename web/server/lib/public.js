@@ -100,7 +100,7 @@ internals.after = (server, next) => {
 
   server.route({
     method: 'GET',
-    path: '/ocorrencia',
+    path: '/despacho',
     config: {
       auth: {
         strategy: 'session',
@@ -111,7 +111,41 @@ internals.after = (server, next) => {
           redirectTo: false,
         },
       },
-      description: 'Exibe a tela de Ocorrencia',
+      description: 'Exibe a tela de Despacho',
+      handler: (request, reply) => {
+        if (request.auth.isAuthenticated) {
+          const user = request.auth.credentials
+          if (user && (user.cpf && user.aceitouTermoEsseAno)) {
+            if (user.comite.liderSocial &&
+              user._id === user.comite.liderSocial.voluntarioId
+            ) {
+              return reply.redirect('/lider')
+            }
+            return reply.redirect('/voluntario')
+          }
+          if (user && user.adminLogin) {
+            return reply.redirect('/admin')
+          }
+        }
+        return reply.view('public')
+      },
+    },
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/equipe-medica',
+    config: {
+      auth: {
+        strategy: 'session',
+        mode: 'try',
+      },
+      plugins: {
+        'hapi-auth-cookie': {
+          redirectTo: false,
+        },
+      },
+      description: 'Exibe a tela de Equipe Médica',
       handler: (request, reply) => {
         if (request.auth.isAuthenticated) {
           const user = request.auth.credentials
