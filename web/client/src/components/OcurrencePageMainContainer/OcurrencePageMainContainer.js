@@ -44,14 +44,16 @@ class OcurrencePageMainContainer extends React.Component {
   renderBoxOccurrences() {
     if (this.state.occurrences.length) {
       return this.state.occurrences.map((item) => {
-        const date = moment(item.status.length ? item.status[0].date : null).format('DD-MM-YYYY')
+        const length = item.status.length
+        const date = moment(length ? item.status[length - 1].date : null).format('DD-MM-YYYY')
+        console.log(item.status)
         return (
           <BoxOccurrences
             key={item.id_occurrence}
             name={item.name_solicitant}
             text={item.comments}
             date={date}
-            status={item.status.length ? item.status[(item.status.length - 1)].type : null}
+            status={length ? item.status[length - 1].type : null}
           />
         )
       })

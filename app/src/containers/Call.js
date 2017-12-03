@@ -17,6 +17,9 @@ import {
   loadOccurrence,
   updateOccurrenceStatus,
 } from '../actions/occurrence'
+import {
+  updateLocation,
+} from '../actions/location'
 import { css, withStyles } from '../styles/HackingTheFire'
 import BottomView from '../ui/BottomView'
 import StatusCard from '../ui/StatusCard'
@@ -27,8 +30,31 @@ class _Call extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      latitude: null,
+      longitude: null,
+      error: null,
       refreshing: false,
     }
+  }
+
+  componentDidMount() {
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        }, () => {
+          this.props.updateLocation(`${this.state.latitude}, ${this.state.longitude}`)
+        })
+      },
+      error => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    )
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId)
   }
 
   onRefresh = () => {
@@ -261,11 +287,13 @@ _Call.propTypes = {
   occurrence: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
   updateOccurrenceStatus: PropTypes.func,
+  updateLocation: PropTypes.func,
 }
 
 _Call.defaultProps = {
   loadOccurrence: () => {},
   updateOccurrenceStatus: () => {},
+  updateLocation: () => {},
 }
 
 const mapStateToProps = state => ({
@@ -275,6 +303,7 @@ const mapStateToProps = state => ({
 const mapActionToProps = {
   loadOccurrence,
   updateOccurrenceStatus,
+  updateLocation,
 }
 
 const Call = connect(mapStateToProps, mapActionToProps)(_Call)

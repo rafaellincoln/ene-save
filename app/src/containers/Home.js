@@ -16,12 +16,44 @@ import PropTypes from 'prop-types'
 import {
   loadOccurrence,
 } from '../actions/occurrence'
+import {
+  updateLocation,
+} from '../actions/location'
 import { css, withStyles } from '../styles/HackingTheFire'
 import Card from '../ui/Card'
 
 const { width } = Dimensions.get('window')
 
 class _Home extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      latitude: null,
+      longitude: null,
+      error: null,
+    }
+  }
+
+  componentDidMount() {
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        }, () => {
+          this.props.updateLocation(`${this.state.latitude}, ${this.state.longitude}`)
+        })
+      },
+      error => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    )
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId)
+  }
+
   renderCallButton() {
     if (!this.props.occurrence.idOccurrence) return null
     return (
@@ -102,10 +134,12 @@ _Home.propTypes = {
   occurrence: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  updateLocation: PropTypes.func,
 }
 
 _Home.defaultProps = {
   loadOccurrence: () => {},
+  updateLocation: () => {},
 }
 
 const mapStateToProps = state => ({
@@ -114,6 +148,7 @@ const mapStateToProps = state => ({
 
 const mapActionToProps = {
   loadOccurrence,
+  updateLocation,
 }
 
 const Home = connect(mapStateToProps, mapActionToProps)(_Home)
