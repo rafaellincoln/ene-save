@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native'
 import PropTypes from 'prop-types'
-import ImagePicker from 'react-native-image-picker'
+// import ImagePicker from 'react-native-image-picker'
 import {
   connect,
 } from 'react-redux'
