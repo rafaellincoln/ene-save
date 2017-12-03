@@ -155,7 +155,7 @@ StatusCard.defaultProps = {
   timeSpent: 0,
 }
 
-export default withStyles(({ color }) => ({
+export default withStyles(({ color, fontFamily }) => ({
   container: {
     alignItems: 'center',
     backgroundColor: color.white,
@@ -185,6 +185,7 @@ export default withStyles(({ color }) => ({
     width: '100%',
   },
   title: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: width < 380 ? 13 : 18,
     fontWeight: 'bold',
   },
@@ -207,6 +208,7 @@ export default withStyles(({ color }) => ({
   },
   buttonStartText: {
     color: color.white,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: width < 380 ? 14 : 20,
   },
   timeRed: {
@@ -226,6 +228,7 @@ export default withStyles(({ color }) => ({
     paddingHorizontal: width < 380 ? 5 : 10,
   },
   buttonText: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: width < 380 ? 14 : 20,
     marginLeft: width < 380 ? 5 : 10,
   },
