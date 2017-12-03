@@ -37,46 +37,8 @@ class MedicalTeamPageMainContainer extends React.Component {
         <div className={`Grid-cell u-size1of12 ${style.padding}`} />
         <div className="Grid-cell u-size10of12">
           <TextField
-            name=""
-            floatingLabelText="Dados"
-            fullWidth
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size7of12">
-          <TextField
-            name=""
-            floatingLabelText="Dados"
-            fullWidth
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="Grid-cell u-size3of12">
-          <TextField
-            name=""
-            floatingLabelText="Dados"
-            fullWidth
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size10of12">
-          <TextField
-            name=""
-            floatingLabelText="Dados"
-            fullWidth
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell u-size10of12">
-          <TextField
             name="comments"
-            floatingLabelText="Dados"
+            floatingLabelText="Observações"
             fullWidth
             multiLine
             rows={2}
@@ -85,6 +47,8 @@ class MedicalTeamPageMainContainer extends React.Component {
           />
           <div className="Grid-cell u-size1of12" />
         </div>
+        <div className="Grid-cell u-size1of12" />
+        <div className="Grid-cell u-size11of12"></div>
         <div className="Grid-cell u-size11of12">
           <div style={styles.alignDiv}>
             <button style={styles.buttonSend} onClick={this.props.onClick}>Salvar</button>

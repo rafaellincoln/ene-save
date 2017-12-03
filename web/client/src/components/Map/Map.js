@@ -6,6 +6,8 @@ import {
   GoogleApiWrapper,
   InfoWindow,
 } from 'google-maps-react'
+import { log } from 'util'
+import moment from 'moment'
 import request from 'superagent'
 import style from './Map.css'
 import urls from '../../../../server/constant/urls'
@@ -20,22 +22,27 @@ class MapContainer extends React.Component {
     this.onMarkerClick = this.onMarkerClick.bind(this)
   }
 
-  onMarkerClick(prop, mark) {
+  onMarkerClick(prop, mark, idOccurrence, resources) {
     this.setState({
       selectedPlace: prop,
       activeMarker: mark,
     })
-  }
 
-  sendOccurrence(ev, idOccurrence) {
-    console.log(idOccurrence)
-    request
-      .put(`${urls.baseURL}/occurrence/action`)
-      .send({ id: idOccurrence, status: 3, resource: 2 })
-      .end((err, res) => {
-        console.log('err: ', err)
-        console.log('res: ', res)
-      })
+    resources.map((item) => {
+      const btn = document.querySelector(`button[data-sendresource="${idOccurrence}"]`)
+      if (btn) {
+        btn.addEventListener('click', () => {
+          request
+            .put(`${urls.baseURL}/occurrence/action`)
+            .send({ id: idOccurrence, status: [{ type: 3, date: moment().format() }], resource: item.id_resource })
+            .end((err, res) => {
+              console.log('err: ', err)
+              console.log('res: ', res)
+            })
+        })
+      }
+    })
+
   }
 
   renderMarker() {
@@ -49,7 +56,7 @@ class MapContainer extends React.Component {
             icon={{
               url: '/images/marker.svg',
             }}
-            onClick={this.onMarkerClick}
+            onClick={(prop, mark) => this.onMarkerClick(prop, mark, item.id_occurrence, this.props.resources)}
           />
         )
         // }
@@ -63,7 +70,8 @@ class MapContainer extends React.Component {
     if (this.props.occurrences.length) {
       return this.props.occurrences.map((item) => {
         if (this.state.activeMarker &&
-          (this.state.activeMarker.position.lat() === item.location.lat)) {
+          ((this.state.activeMarker.position.lat() === item.location.lat) ||
+          (this.state.activeMarker.position.lng() === item.location.long))) {
           return (
             <InfoWindow
               key={item.id_occurrence}
@@ -74,10 +82,10 @@ class MapContainer extends React.Component {
                 <p>{item.p[0].name_patient}</p>
                 <p>{item.p[0].occurrence_patient.complaint_patient}</p>
                 <p>{`Viatura - ${this.props.resources[0].board_resource}`}</p>
-                <button className={`${style.btn}`}>cancelar</button>
                 <button
+                  style={{ zIndex: 200 }}
                   className={`${style.btn} ${style.btnResource}`}
-                  onClick={(ev) => { this.sendOccurrence(ev, item.id_occurrence) }}
+                  data-sendresource={item.id_occurrence}
                 >
                   enviar recurso
                 </button>
@@ -92,7 +100,7 @@ class MapContainer extends React.Component {
   }
 
   render() {
-    const style = {
+    const styles = {
       width: '930px',
       height: '500px',
     }
@@ -100,7 +108,7 @@ class MapContainer extends React.Component {
       <Map
         google={this.props.google}
         zoom={14}
-        style={style}
+        style={styles}
         initialCenter={{
           lat: -18.9118031,
           lng: -48.2642389,
