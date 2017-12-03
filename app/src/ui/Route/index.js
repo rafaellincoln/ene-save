@@ -46,12 +46,12 @@ class _Route extends Component {
   handleGetDirections = () => {
     const data = {
       source: {
-        latitude: this.props.occurrence.location.lat,
-        longitude: this.props.occurrence.location.long,
-      },
-      destination: {
         latitude: this.state.latitude,
         longitude: this.state.longitude,
+      },
+      destination: {
+        latitude: this.props.occurrence.location.lat,
+        longitude: this.props.occurrence.location.long,
       },
       params: [
         {
