@@ -6,6 +6,9 @@ import {
   GoogleApiWrapper,
   InfoWindow,
 } from 'google-maps-react'
+import request from 'superagent'
+import style from './Map.css'
+import urls from '../../../../server/constant/urls'
 
 class MapContainer extends React.Component {
   constructor(props) {
@@ -24,22 +27,33 @@ class MapContainer extends React.Component {
     })
   }
 
+  sendOccurrence(ev, idOccurrence) {
+    console.log(idOccurrence)
+    request
+      .put(`${urls.baseURL}/occurrence/action`)
+      .send({ id: idOccurrence, status: 3, resource: 2 })
+      .end((err, res) => {
+        console.log('err: ', err)
+        console.log('res: ', res)
+      })
+  }
+
   renderMarker() {
     if (this.props.occurrences.length) {
       return this.props.occurrences.map((item) => {
-        if (item.status[item.status.length - 1].type === 2) {
-          return (
-            <Marker
-              key={item.id_occurrence}
-              position={{ lat: item.location.lat, lng: item.location.long }}
-              icon={{
-                url: '/images/marker.svg',
-              }}
-              onClick={this.onMarkerClick}
-            />
-          )
-        }
-        return null
+        // if (item.status.length && (item.status[item.status.length - 1].type === 2)) {
+        return (
+          <Marker
+            key={item.id_occurrence}
+            position={{ lat: item.location.lat, lng: item.location.long }}
+            icon={{
+              url: '/images/marker.svg',
+            }}
+            onClick={this.onMarkerClick}
+          />
+        )
+        // }
+        // return null
       })
     }
     return null
@@ -48,7 +62,8 @@ class MapContainer extends React.Component {
   renderInfoWindow() {
     if (this.props.occurrences.length) {
       return this.props.occurrences.map((item) => {
-        if (this.state.activeMarker && this.state.activeMarker.position.lat() === item.location.lat) {
+        if (this.state.activeMarker &&
+          (this.state.activeMarker.position.lat() === item.location.lat)) {
           return (
             <InfoWindow
               key={item.id_occurrence}
@@ -56,7 +71,16 @@ class MapContainer extends React.Component {
               visible
             >
               <div>
-                <p>{JSON.stringify(item.p[0].name_patient)}</p>
+                <p>{item.p[0].name_patient}</p>
+                <p>{item.p[0].occurrence_patient.complaint_patient}</p>
+                <p>{`Viatura - ${this.props.resources[0].board_resource}`}</p>
+                <button className={`${style.btn}`}>cancelar</button>
+                <button
+                  className={`${style.btn} ${style.btnResource}`}
+                  onClick={(ev) => { this.sendOccurrence(ev, item.id_occurrence) }}
+                >
+                  enviar recurso
+                </button>
               </div>
             </InfoWindow>
           )
