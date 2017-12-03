@@ -34,8 +34,23 @@ var internals = {
         }
       },
       {
+        plugin: 'inert',
+      },
+      {
         plugin: './version'
       },
+      {
+        plugin: './occurrence'
+      },
+      {
+        plugin: './user'
+      },
+      {
+        plugin: './resource'
+      },
+      {
+        plugin: './upload'
+      }
     ]
   }
 }
