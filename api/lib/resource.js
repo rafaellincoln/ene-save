@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const distance = require('google-distance')
 const DB = require('../models')
 
 const Resource = DB['resource']
@@ -73,13 +74,14 @@ exports.register = function (server, options, next) {
       description: 'Update location',
       validate: {
         payload: {
-          user: Joi.string().required().description('Username')
+          userId: Joi.string().required().description('Username'),
+          location: Joi.string().required()
         }
       }
     },
     handler: function (request, reply) {
-      Resource.update({ status_resource: 1 }, {
-        where: { id_resource: resource.id_resource }
+      Resource.update({ location: request.payload.location }, {
+        where: { player_id: request.payload.userId }
       })
     }
   })
@@ -93,6 +95,48 @@ exports.register = function (server, options, next) {
     handler: function (request, reply) {
       Resource.findAll().then((resource) => {
         reply(resource)
+      })
+    }
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/resource/distance',
+    config: {
+      description: 'Get Resources',
+      validate: {
+        query: {
+          origin: Joi.string().required()
+        }
+      }
+    },
+    handler: function (request, reply) {
+      Resource.findAll({ raw: true }).then((resource) => {
+        const count = resource.length -1
+        var distanceObj = {}
+
+        resource.forEach(function(element, index) {
+          distance.get(
+          {
+            index: 1,
+            origin: request.query.origin,
+            destination: element.location
+          },
+          function (err, data) {
+            if (err) return console.log(err);
+
+            if (!distanceObj.distanceValue) distanceObj = data
+            if (distanceObj.distanceValue > data.distanceValue) distanceObj = data
+
+            const teste = element
+            teste.distance = distanceObj
+
+            console.log(teste)
+
+            if (index === count) return reply(teste)
+          });
+        }, this);
+        // reply(resource)
       })
     }
   })

@@ -10,12 +10,14 @@ import request from 'superagent'
 import style from './Map.css'
 import urls from '../../../../server/constant/urls'
 
-class MapContainer extends React.Component {
+class MapContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       activeMarker: null,
       selectedPlace: null,
+      distance: {},
+      position: '',
     }
     this.onMarkerClick = this.onMarkerClick.bind(this)
   }
@@ -25,6 +27,17 @@ class MapContainer extends React.Component {
       selectedPlace: prop,
       activeMarker: mark,
     })
+  }
+
+  getDistance(position) {
+    request
+      .get(`${urls.baseURL}/resource/distance?origin=${position}`)
+      .end((err, res) => {
+        this.setState({
+          distance: res.body.distance,
+          position,
+        })
+      })
   }
 
   sendOccurrence(ev, idOccurrence) {
@@ -64,6 +77,10 @@ class MapContainer extends React.Component {
       return this.props.occurrences.map((item) => {
         if (this.state.activeMarker &&
           (this.state.activeMarker.position.lat() === item.location.lat)) {
+          const position = `${item.location.lat},${item.location.long}`
+          if (!this.state.position || this.state.position !== position) {
+            this.getDistance(position)
+          }
           return (
             <InfoWindow
               key={item.id_occurrence}
@@ -73,7 +90,7 @@ class MapContainer extends React.Component {
               <div>
                 <p>{item.p[0].name_patient}</p>
                 <p>{item.p[0].occurrence_patient.complaint_patient}</p>
-                <p>{`Viatura - ${this.props.resources[0].board_resource}`}</p>
+                <p>{`Viatura - ${this.props.resources[0].board_resource} - ${this.state.distance.distance} - ${this.state.distance.duration}`}</p>
                 <button className={`${style.btn}`}>cancelar</button>
                 <button
                   className={`${style.btn} ${style.btnResource}`}

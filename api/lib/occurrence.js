@@ -253,7 +253,7 @@ exports.register = function (server, options, next) {
 
       const type = payload.emergency === 'Y' ? 1 : 2
 
-      occurrence.status = { type, date: new Date() }
+      occurrence.status = [{ type, date: new Date() }]
 
       geocoder.geocode(occurrence).then((res) => {
 
