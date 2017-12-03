@@ -84,7 +84,10 @@ class OcurrencePageMainContainer extends React.Component {
         <div className={`Grid-cell u-size10of12 ${style.containerMap}`}>
           <div className="Grid Grid--withGutter Grid--aligMiddle">
             <div className={`Grid-cell ${style.boxListOccurrences}`}>
-              <Map />
+              <Map
+                occurrences={this.state.occurrences}
+                resources={this.state.resources}
+              />
             </div>
             <div className="Grid-cell">
               <div className="Grid Grid--withGutter">

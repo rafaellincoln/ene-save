@@ -4,10 +4,68 @@ import {
   Map,
   Marker,
   GoogleApiWrapper,
+  InfoWindow,
 } from 'google-maps-react'
 
 class MapContainer extends React.Component {
-  componentWillMount() {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
+    }
+    this.onMarkerClick = this.onMarkerClick.bind(this)
+    this.onMapClicked = this.onMapClicked.bind(this)
+  }
+
+  onMarkerClick(prop, mark) {
+    this.setState({
+      selectedPlace: prop,
+      activeMarker: mark,
+      showingInfoWindow: true,
+    })
+  }
+
+  onMapClicked() {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null,
+      })
+    }
+  }
+
+  renderMarker() {
+    console.log(this.props.occurrences)
+    if (this.props.occurrences.length) {
+      return this.props.occurrences.map(item => (
+        <Marker
+          key={item.id_occurrence}
+          position={{ lat: item.location.lat, lng: item.location.long }}
+          icon={{
+            url: '/images/marker.svg',
+          }}
+          onClick={this.onMarkerClick}
+        />
+      ))
+    }
+
+    return null
+  }
+
+  renderInfoWindow() {
+    return (
+      <InfoWindow
+        marker={this.state.activeMarker}
+        visible={this.state.showingInfoWindow}
+      >
+        <div>
+          <h1>{this.state.selectedPlace.name}</h1>
+        </div>
+      </InfoWindow>
+    )
+  }
 
   render() {
     const style = {
@@ -24,28 +82,8 @@ class MapContainer extends React.Component {
           lng: -48.2642389,
         }}
       >
-        <Marker onClick={this.onMarkerClick} name={'Current location'} />
-        <Marker
-          title={'Bar do Gaúcho'}
-          name={'BAR DO GAÚCHO'}
-          position={{ lat: -18.9116825, lng: -48.2666459 }}
-          icon={{
-            url: '/images/marker.svg',
-          }}
-        />
-        <Marker
-          title={'Center Shopping'}
-          name={'CENTER SHOPPING'}
-          position={{ lat: -18.9118031, lng: -48.2642389 }}
-        />
-        <Marker
-          title={'Barbosão Supermercado'}
-          name={'BARBOSÃO SUPERMERCADO'}
-          position={{ lat: -18.912558, lng: -48.2743029 }}
-          icon={{
-            url: '/images/marker-bad.png',
-          }}
-        />
+        {this.renderMarker()}
+        {this.renderInfoWindow()}
       </Map>
     )
   }
@@ -53,6 +91,7 @@ class MapContainer extends React.Component {
 
 MapContainer.propTypes = {
   google: PropTypes.object,
+  occurrences: PropTypes.array,
 }
 
 export default GoogleApiWrapper({
