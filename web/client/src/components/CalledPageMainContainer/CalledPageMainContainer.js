@@ -225,6 +225,9 @@ class CalledPageMainContainer extends React.Component {
               </div>
             </div>
           </div>
+          <div style={styles.alignDiv}>
+            <button style={styles.buttonSend} onClick={this.props.onClick}>Salvar</button>
+          </div>
         </div>
         <div className="Grid-cell u-size1of12" />
       </div>
@@ -232,8 +235,23 @@ class CalledPageMainContainer extends React.Component {
   }
 }
 
+styles.alignDiv = {
+  textAlign: 'right',
+  color: '#ffffff',
+}
+
+styles.buttonSend = {
+  marginTop: '40px',
+  width: '178px',
+  height: '46px',
+  borderRadius: '100px',
+  backgroundColor: '#29c94c',
+  boxShadow: '0 0 7px 0 rgba(0, 0, 0, 0.04)',
+  border: 'solid 1px #1b9a37',
+}
+
 styles.bottom = {
-  paddingBottom: '60px',
+  paddingBottom: '0',
 }
 
 styles.radioButton = {
