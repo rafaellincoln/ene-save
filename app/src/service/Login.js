@@ -2,8 +2,7 @@ import api from './api'
 
 const Login = {
   async fetchLogin(payload) {
-    const res = await api.post('/login', payload)
-    console.log(res)
+    const res = await api.post('/resource/login', payload)
     return res.data
   },
 }
