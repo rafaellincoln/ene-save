@@ -1,7 +1,5 @@
 const internals = {}
 
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-
 exports.register = (server, options, next) => {
   // Code inside the callback function of server.dependency will only be
   // executed after hapi-auth-cookie has been registered.  It's triggered by
@@ -15,7 +13,6 @@ exports.register = (server, options, next) => {
 internals.options = {
   cacheOptions: { segment: 'sessions', expiresIn: 3 * 24 * 60 * 60 * 1000 },
   password: 'y00y-00m3-m4k1-z00m-y00y-00m3-m4k1-z00m-',
-  cookie: 'sid-voluntariado',
   redirectTo: '/',
   isSecure: false,
 }
@@ -24,7 +21,6 @@ exports.options = internals.options
 exports.register.attributes = {
   name: 'AuthCookie',
 }
-
 
 internals.after = (serverIn, next) => {
   const server = serverIn
@@ -46,18 +42,6 @@ internals.after = (serverIn, next) => {
 
         if (!cached) {
             // session expired exception.
-          return callback(null, false)
-        }
-
-        const path = request.url.path
-
-        if (path.indexOf('/lider') !== -1 &&
-            (!cached.account.comite.liderSocial ||
-            cached.account._id !== cached.account.comite.liderSocial.voluntarioId)) {
-          return callback(null, false)
-        } else if (path.indexOf('/voluntario') !== -1 &&
-            (cached.account.comite.liderSocial &&
-            cached.account._id === cached.account.comite.liderSocial.voluntarioId)) {
           return callback(null, false)
         }
 

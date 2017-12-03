@@ -52,19 +52,7 @@ const internals = {
         plugin: './auth-cookie',
       },
       {
-        plugin: './auth',
-      },
-      {
         plugin: './public',
-      },
-      {
-        plugin: './static',
-      },
-      {
-        plugin: './avatar',
-      },
-      {
-        plugin: './protected',
       },
     ],
   },
