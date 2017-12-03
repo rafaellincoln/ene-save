@@ -7,21 +7,51 @@ import {
   Text,
 } from 'react-native'
 import PropTypes from 'prop-types'
+import {
+  connect,
+} from 'react-redux'
 import getDirections from 'react-native-google-maps-directions'
 import { withStyles } from '../../styles/HackingTheFire'
 
 const route = require('../../img/route.png')
 
-class Call extends Component {
+class _Route extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      latitude: null,
+      longitude: null,
+      error: null,
+    }
+  }
+
+  componentDidMount() {
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        })
+      },
+      error => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    )
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId)
+  }
+
   handleGetDirections = () => {
     const data = {
       source: {
-        latitude: -18.907971,
-        longitude: -48.2615868,
+        latitude: this.props.occurrence.location.lat,
+        longitude: this.props.occurrence.location.long,
       },
       destination: {
-        latitude: -18.904984,
-        longitude: -48.2843733,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
       },
       params: [
         {
@@ -50,13 +80,23 @@ class Call extends Component {
   }
 }
 
-Call.propTypes = {
-  // navigation: PropTypes.object.isRequired,
+_Route.propTypes = {
+  occurrence: PropTypes.object,
   styles: PropTypes.object.isRequired,
 }
+
+_Route.defaultProps = {
+  occurrence: {},
+}
+
+const mapStateToProps = state => ({
+  occurrence: state.occurrence,
+})
+
+const Route = connect(mapStateToProps)(_Route)
 
 export default withStyles(() => ({
   container: {
     paddingHorizontal: 10,
   },
-}))(Call)
+}))(Route)

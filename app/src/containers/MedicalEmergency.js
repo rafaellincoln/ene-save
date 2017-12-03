@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import {
   Dimensions,
+  Image,
   ScrollView,
   Text,
   TextInput,
@@ -10,36 +11,42 @@ import {
   View,
 } from 'react-native'
 import PropTypes from 'prop-types'
+import ImagePicker from 'react-native-image-picker'
 import {
   connect,
 } from 'react-redux'
 import { css, withStyles } from '../styles/HackingTheFire'
-import validation from '../scheme/login'
+import validation from '../scheme/medicalEmergency'
 
 const { width } = Dimensions.get('window')
 
-class _Login extends Component {
+class _MedicalEmergency extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      idOccurrence: this.props.occurrence.idOccurrence,
       pressure: '',
       cardioFrequency: '',
       oxigenySaturation: '',
       temperature: '',
+      message: '',
       errors: [],
     }
   }
 
   handlerSubmit() {
     const data = {
-      username: this.state.username,
-      password: this.state.password,
+      ...this.state,
     }
+    delete data.errors
+    console.log(data)
     return validation.validate(data, { abortEarly: false })
       .then(() => {})
       .catch((err) => {
         this.setState({
           errors: err.inner,
+        }, () => {
+          console.log('errors', this.state.errors)
         })
       })
   }
@@ -62,7 +69,55 @@ class _Login extends Component {
     return false
   }
 
-  picker = () => null
+  handlePress = () => null
+  // handlePress = () => {
+    // const opts = {
+    //   cameraType: 'back',
+    //   mediaType: 'photo',
+    //   quality: 1,
+    //   maxWidth: 300,
+    //   maxHeight: 300,
+    //   noData: true,
+    // }
+    // ImagePicker.launchCamera(opts, (response) => {
+    //   if (response.didCancel) {
+    //     console.log('User cancelled image picker')
+    //   } else if (response.error) {
+    //     console.log('ImagePicker Error: ', response.error)
+    //   } else if (response.customButton) {
+    //     console.log('User tapped custom button: ', response.customButton)
+    //   } else {
+    //     const source = { uri: response.uri }
+    //     this.setState({
+    //       picture: source,
+    //       width: response.width,
+    //       height: response.height,
+    //       pictureError: false,
+    //     })
+    //   }
+    // })
+  // }
+
+  renderPicture() {
+    if (this.state.picture) {
+      return (
+        <Image
+          source={this.state.picture}
+          resizeMode="contain"
+          {...css({ width: this.state.width, height: this.state.height })}
+        />
+      )
+    }
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <Text
+          {...css(this.props.styles.textPhoto)}
+        >
+          Adicione foto
+        </Text>
+      </View>
+    )
+  }
 
   render() {
     return (
@@ -79,7 +134,7 @@ class _Login extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            André Luiz Campos Afonso do Vale
+            {this.props.occurrence.p[0].name_patient}
           </Text>
         </View>
         <Text {...css(this.props.styles.subtitle)}>Sinais vitais:</Text>
@@ -136,15 +191,17 @@ class _Login extends Component {
           </Text>
         </View>
         <Text {...css(this.props.styles.subtitle)}>
-          Multimídia para equipe médica:
+          Fotos para equipe médica:
         </Text>
         <View
           {...css(this.props.styles.dataContainer)}
         >
           <TouchableOpacity
-            onPress={this.picker}
+            onPress={this.handlePress}
+            {...css(this.props.styles.containerPhoto)}
+            fullWidth
           >
-            <Text>Selecionar fotos/vídeos</Text>
+            {this.renderPicture()}
           </TouchableOpacity>
         </View>
         <Text {...css(this.props.styles.subtitle)}>
@@ -155,7 +212,7 @@ class _Login extends Component {
         >
           <TextInput
             onChangeText={(value) => { this.setState({ message: value }) }}
-            placeholder="Messagem"
+            placeholder="Mensagem"
             {...css(this.props.styles.input, this.props.styles.textArea)}
             multiline
             numberOfLines={4}
@@ -182,22 +239,26 @@ class _Login extends Component {
   }
 }
 
-_Login.propTypes = {
+_MedicalEmergency.propTypes = {
   navigation: PropTypes.object.isRequired,
+  occurrence: PropTypes.object,
   styles: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   userError: PropTypes.string,
 }
 
-_Login.defaultProps = {
+_MedicalEmergency.defaultProps = {
   logged: false,
+  occurrence: {},
   userError: '',
 }
 
 const mapStateToProps = state => ({
+  occurrence: state.occurrence,
   userError: state.user.error,
 })
 
-const Login = connect(mapStateToProps)(_Login)
+const MedicalEmergency = connect(mapStateToProps)(_MedicalEmergency)
 
 export default withStyles(({ color, fontFamily }) => ({
   container: {
@@ -288,4 +349,4 @@ export default withStyles(({ color, fontFamily }) => ({
     marginTop: 20,
     padding: 10,
   },
-}))(Login)
+}))(MedicalEmergency)
