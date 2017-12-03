@@ -6,6 +6,7 @@ import {
   AutoComplete,
 } from 'material-ui'
 import request from 'superagent'
+import PropTypes from 'prop-types'
 import urls from '../../../../server/constant/urls'
 import style from './CalledPageMainContainer.css'
 import ContentSubtitle from '../ContentSubtitle/ContentSubtitle'
@@ -32,6 +33,7 @@ class CalledPageMainContainer extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleOnNewRequest = this.handleOnNewRequest.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.renderButton = this.renderButton.bind(this)
   }
 
   handleChange(ev, newValue) {
@@ -57,6 +59,15 @@ class CalledPageMainContainer extends React.Component {
           console.log('res: ', res)
         })
     }
+  }
+
+  renderButton() {
+    if (!this.props.hasButton) { return null }
+    return (
+      <div className="Grid-cell u-size3of12">
+        <button onClick={this.props.onClick}>Salvar</button>
+      </div>
+    )
   }
 
   render() {
@@ -214,11 +225,33 @@ class CalledPageMainContainer extends React.Component {
               </div>
             </div>
           </div>
+          <div style={styles.alignDiv}>
+            <button style={styles.buttonSend} onClick={this.props.onClick}>Salvar</button>
+          </div>
         </div>
         <div className="Grid-cell u-size1of12" />
       </div>
     )
   }
+}
+
+styles.alignDiv = {
+  textAlign: 'right',
+  color: '#ffffff',
+}
+
+styles.buttonSend = {
+  marginTop: '40px',
+  width: '178px',
+  height: '46px',
+  borderRadius: '100px',
+  backgroundColor: '#29c94c',
+  boxShadow: '0 0 7px 0 rgba(0, 0, 0, 0.04)',
+  border: 'solid 1px #1b9a37',
+}
+
+styles.bottom = {
+  paddingBottom: '0',
 }
 
 styles.radioButton = {
@@ -231,4 +264,10 @@ styles.radioButtonGroup = {
   marginTop: 10,
 }
 
+CalledPageMainContainer.propTypes = {
+  onClick: PropTypes.func,
+  hasButton: PropTypes.bool,
+}
+
 export default CalledPageMainContainer
+
