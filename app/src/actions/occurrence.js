@@ -38,7 +38,6 @@ export const loadOccurrence = (payload, redirect = true) => (
     Occurrence
       .fetchOccurrence(payload)
       .then((res) => {
-        console.log(res)
         if (res.address) {
           res.idOccurrence = payload
           if (redirect) {

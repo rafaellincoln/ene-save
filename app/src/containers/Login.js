@@ -202,6 +202,7 @@ export default withStyles(({ color, fontFamily }) => ({
   },
   validation: {
     color: color.darkGrey,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     fontStyle: 'italic',
     fontWeight: 'bold',
@@ -225,6 +226,7 @@ export default withStyles(({ color, fontFamily }) => ({
   error: {
     backgroundColor: color.blue,
     color: color.white,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     fontStyle: 'italic',
     fontWeight: 'bold',

@@ -67,7 +67,7 @@ Card.propTypes = {
   total: PropTypes.number.isRequired,
 }
 
-export default withStyles(({ color }) => ({
+export default withStyles(({ color, fontFamily }) => ({
   container: {
     backgroundColor: color.white,
     borderRadius: 8,
@@ -89,9 +89,11 @@ export default withStyles(({ color }) => ({
     justifyContent: 'space-between',
   },
   title: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: width < 360 ? 14 : 18,
   },
   value: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: width < 360 ? 38 : 46,
     fontWeight: 'bold',
   },

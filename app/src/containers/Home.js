@@ -4,14 +4,18 @@ import React, {
 import {
   Dimensions,
   FlatList,
+  Platform,
+  ScrollView,
   Text,
-  View,
   TouchableOpacity,
 } from 'react-native'
 import {
   connect,
 } from 'react-redux'
 import PropTypes from 'prop-types'
+import {
+  loadOccurrence,
+} from '../actions/occurrence'
 import { css, withStyles } from '../styles/HackingTheFire'
 import Card from '../ui/Card'
 
@@ -34,7 +38,7 @@ class _Home extends PureComponent {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         {this.renderCallButton()}
         <Text style={this.props.styles.subtitle}>Status dos atendimentos AO VIVO:</Text>
         <FlatList
@@ -71,25 +75,50 @@ class _Home extends PureComponent {
             />
           )}
         />
-      </View>
+        {
+          Platform.OS === 'ios'
+          ? (
+            <TouchableOpacity
+              onPress={() => {
+                this.props.loadOccurrence(3)
+              }}
+              style={{
+                alignSelf: 'center',
+                marginVertical: 20,
+              }}
+            >
+              <Text>Abrir chamado (iOS)</Text>
+            </TouchableOpacity>
+          ) : null
+        }
+      </ScrollView>
     )
   }
 }
 
 _Home.propTypes = {
+  loadOccurrence: PropTypes.func,
   navigation: PropTypes.object.isRequired,
   occurrence: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 }
 
+_Home.defaultProps = {
+  loadOccurrence: () => {},
+}
+
 const mapStateToProps = state => ({
   occurrence: state.occurrence,
 })
 
-const Home = connect(mapStateToProps)(_Home)
+const mapActionToProps = {
+  loadOccurrence,
+}
 
-export default withStyles(({ color }) => ({
+const Home = connect(mapStateToProps, mapActionToProps)(_Home)
+
+export default withStyles(({ color, fontFamily }) => ({
   callButton: {
     backgroundColor: color.blue,
     borderRadius: 8,
@@ -108,10 +137,12 @@ export default withStyles(({ color }) => ({
   },
   callButtonInner: {
     color: color.white,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     textAlign: 'center',
   },
   subtitle: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 15,

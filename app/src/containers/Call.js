@@ -90,19 +90,29 @@ class _Call extends Component {
     if (!this.props.occurrence.address) {
       return (
         <ScrollView
+          {...css(this.props.styles.container)}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={() => this.onRefresh()}
             />
           }
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <Text>Deu erro carai!</Text>
+          <Text>Houve um problema ao carregar a ocorrência. Faça um pull refresh
+            para tentar atualizar.</Text>
         </ScrollView>
       )
     }
     return (
-      <BottomView navigation={this.props.navigation}>
+      <BottomView
+        navigation={this.props.navigation}
+        occurrence={this.props.occurrence}
+        updateOccurrence={() => this.updateOccurrenceStatus()}
+      >
         <Text {...css(this.props.styles.subtitle)}>Status da ocorrência:</Text>
         {this.renderStatus()}
         <Text {...css(this.props.styles.subtitle)}>Dados do contribuinte:</Text>
@@ -269,7 +279,7 @@ const mapActionToProps = {
 
 const Call = connect(mapStateToProps, mapActionToProps)(_Call)
 
-export default withStyles(({ color }) => ({
+export default withStyles(({ color, fontFamily }) => ({
   container: {
     position: 'absolute',
     height,
@@ -277,6 +287,7 @@ export default withStyles(({ color }) => ({
     width,
   },
   subtitle: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 15,
@@ -292,12 +303,14 @@ export default withStyles(({ color }) => ({
   },
   dataLabel: {
     color: color.darkGrey,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   dataText: {
     color: color.darkGrey,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     lineHeight: 28,
     marginBottom: 10,
