@@ -33,7 +33,6 @@ class CalledPageMainContainer extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleOnNewRequest = this.handleOnNewRequest.bind(this)
     this.handleSave = this.handleSave.bind(this)
-    this.renderButton = this.renderButton.bind(this)
   }
 
   handleChange(ev, newValue) {
@@ -59,15 +58,6 @@ class CalledPageMainContainer extends React.Component {
           console.log('res: ', res)
         })
     }
-  }
-
-  renderButton() {
-    if (!this.props.hasButton) { return null }
-    return (
-      <div className="Grid-cell u-size3of12">
-        <button onClick={this.props.onClick}>Salvar</button>
-      </div>
-    )
   }
 
   render() {
@@ -226,7 +216,7 @@ class CalledPageMainContainer extends React.Component {
             </div>
           </div>
           <div style={styles.alignDiv}>
-            <button style={styles.buttonSend} onClick={this.props.onClick}>Salvar</button>
+            <button style={styles.buttonSend} onClick={this.handleSave}>Salvar</button>
           </div>
         </div>
         <div className="Grid-cell u-size1of12" />

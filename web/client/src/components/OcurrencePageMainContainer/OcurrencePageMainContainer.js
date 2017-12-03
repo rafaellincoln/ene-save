@@ -30,7 +30,7 @@ class OcurrencePageMainContainer extends React.Component {
         }
         this.setState({ occurrences: res.body })
       })
-    
+
     request
       .get(`${urls.baseURL}/resource`)
       .end((err, res) => {
