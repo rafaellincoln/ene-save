@@ -1,7 +1,7 @@
 const urls = { // urls de produção
-  baseURL: 'http://192.168.29.147:8088',
-  baseDNS: 'http://voluntariado.algar.com.br:8088',
-  baseWEB: 'http://voluntariado.algar.com.br',
+  baseURL: '',
+  baseDNS: '',
+  baseWEB: '',
 }
 
 // urls de desenvolvimento

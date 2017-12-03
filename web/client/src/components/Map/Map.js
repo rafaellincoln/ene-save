@@ -11,60 +11,60 @@ class MapContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {},
+      activeMarker: null,
+      selectedPlace: null,
     }
     this.onMarkerClick = this.onMarkerClick.bind(this)
-    this.onMapClicked = this.onMapClicked.bind(this)
   }
 
   onMarkerClick(prop, mark) {
     this.setState({
       selectedPlace: prop,
       activeMarker: mark,
-      showingInfoWindow: true,
     })
   }
 
-  onMapClicked() {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null,
+  renderMarker() {
+    if (this.props.occurrences.length) {
+      return this.props.occurrences.map((item) => {
+        if (item.status[item.status.length - 1].type === 2) {
+          return (
+            <Marker
+              key={item.id_occurrence}
+              position={{ lat: item.location.lat, lng: item.location.long }}
+              icon={{
+                url: '/images/marker.svg',
+              }}
+              onClick={this.onMarkerClick}
+            />
+          )
+        }
+        return null
       })
     }
-  }
-
-  renderMarker() {
-    console.log(this.props.occurrences)
-    if (this.props.occurrences.length) {
-      return this.props.occurrences.map(item => (
-        <Marker
-          key={item.id_occurrence}
-          position={{ lat: item.location.lat, lng: item.location.long }}
-          icon={{
-            url: '/images/marker.svg',
-          }}
-          onClick={this.onMarkerClick}
-        />
-      ))
-    }
-
     return null
   }
 
   renderInfoWindow() {
-    return (
-      <InfoWindow
-        marker={this.state.activeMarker}
-        visible={this.state.showingInfoWindow}
-      >
-        <div>
-          <h1>{this.state.selectedPlace.name}</h1>
-        </div>
-      </InfoWindow>
-    )
+    if (this.props.occurrences.length) {
+      return this.props.occurrences.map((item) => {
+        if (this.state.activeMarker && this.state.activeMarker.position.lat() === item.location.lat) {
+          return (
+            <InfoWindow
+              key={item.id_occurrence}
+              marker={this.state.activeMarker}
+              visible
+            >
+              <div>
+                <p>{JSON.stringify(item.p[0].name_patient)}</p>
+              </div>
+            </InfoWindow>
+          )
+        }
+        return null
+      })
+    }
+    return null
   }
 
   render() {

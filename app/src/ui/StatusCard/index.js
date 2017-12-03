@@ -22,7 +22,7 @@ const emergency = require('../../img/emergency.png')
 const { width } = Dimensions.get('window')
 
 class StatusCard extends Component {
-  render2() {
+  render3() {
     return (
       <View {...css(this.props.styles.container)}>
         <Text {...css(this.props.styles.title)}>{this.props.title}</Text>
@@ -36,14 +36,11 @@ class StatusCard extends Component {
     )
   }
 
-  render3() {
+  render4() {
     return (
       <View {...css(this.props.styles.container)}>
         <View>
           <Text {...css(this.props.styles.title)}>{this.props.title}</Text>
-          <Text {...css(this.props.styles.timeRed)}>
-            {this.props.timeLeft}min até o destino
-          </Text>
         </View>
         <TouchableOpacity
           {...css(this.props.styles.button, this.props.styles.buttonCheck)}
@@ -60,7 +57,7 @@ class StatusCard extends Component {
     )
   }
 
-  render4() {
+  render5() {
     return (
       <View
         {...css(
@@ -70,33 +67,8 @@ class StatusCard extends Component {
       >
         <View {...css(this.props.styles.textsHorizontal)}>
           <Text {...css(this.props.styles.title)}>{this.props.title}</Text>
-          <Text {...css(this.props.styles.timeGreen)}>
-            {this.props.timeSpent}min em atendimento
-          </Text>
         </View>
         <View {...css(this.props.styles.buttonsHorizontal)}>
-          <TouchableOpacity
-            {...css(
-              this.props.styles.button,
-              this.props.styles.buttonCheck,
-              this.props.styles.buttonM,
-            )}
-            onPress={this.props.onPressCheckout}
-          >
-            <Image
-              resizeMode="contain"
-              source={checkout}
-              style={{ height: 24, width: 24 }}
-            />
-            <Text
-              {...css(
-                this.props.styles.buttonText,
-                this.props.styles.buttonTextM,
-              )}
-            >
-              CHECK-OUT
-            </Text>
-          </TouchableOpacity>
           <TouchableOpacity
             {...css(
               this.props.styles.button,
@@ -119,21 +91,40 @@ class StatusCard extends Component {
               EMERGÊNCIA MÉDICA
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            {...css(
+              this.props.styles.button,
+              this.props.styles.buttonCheck,
+              this.props.styles.buttonM,
+            )}
+            onPress={this.props.onPressCheckout}
+          >
+            <Image
+              resizeMode="contain"
+              source={checkout}
+              style={{ height: 24, width: 24 }}
+            />
+            <Text
+              {...css(
+                this.props.styles.buttonText,
+                this.props.styles.buttonTextM,
+              )}
+            >
+              CHECK-OUT
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     )
   }
 
-  render5() {
-    return (
-      <View {...css(this.props.styles.container)}>
-        <Text {...css(this.props.styles.title)}>{this.props.title}</Text>
-      </View>
-    )
-  }
   render() {
-    if (this.props.statusCode === 2) {
-      return this.render2()
+    if (
+      this.props.statusCode !== 3 &&
+      this.props.statusCode !== 4 &&
+      this.props.statusCode !== 5
+    ) {
+      return null
     }
     if (this.props.statusCode === 3) {
       return this.render3()
@@ -164,7 +155,7 @@ StatusCard.defaultProps = {
   timeSpent: 0,
 }
 
-export default withStyles(({ color }) => ({
+export default withStyles(({ color, fontFamily }) => ({
   container: {
     alignItems: 'center',
     backgroundColor: color.white,
@@ -194,7 +185,8 @@ export default withStyles(({ color }) => ({
     width: '100%',
   },
   title: {
-    fontSize: 18,
+    fontFamily: fontFamily.chantillySerialRegular,
+    fontSize: width < 380 ? 13 : 18,
     fontWeight: 'bold',
   },
   buttonsHorizontal: {
@@ -207,16 +199,17 @@ export default withStyles(({ color }) => ({
   button: {
     alignItems: 'center',
     borderRadius: 25,
-    height: 50,
+    height: width < 380 ? 40 : 50,
     justifyContent: 'center',
-    paddingHorizontal: 30,
+    paddingHorizontal: width < 380 ? 20 : 30,
   },
   buttonStart: {
     backgroundColor: color.lightGreen,
   },
   buttonStartText: {
     color: color.white,
-    fontSize: 20,
+    fontFamily: fontFamily.chantillySerialRegular,
+    fontSize: width < 380 ? 14 : 20,
   },
   timeRed: {
     color: color.red,
@@ -231,12 +224,13 @@ export default withStyles(({ color }) => ({
   buttonM: {
     borderRadius: 10,
     flexDirection: 'column',
-    height: 70,
-    paddingHorizontal: 10,
+    height: width < 380 ? 60 : 70,
+    paddingHorizontal: width < 380 ? 5 : 10,
   },
   buttonText: {
-    fontSize: width < 380 ? 15 : 20,
-    marginLeft: 10,
+    fontFamily: fontFamily.chantillySerialRegular,
+    fontSize: width < 380 ? 14 : 20,
+    marginLeft: width < 380 ? 5 : 10,
   },
   buttonTextM: {
     margin: 0,

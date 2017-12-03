@@ -2,52 +2,119 @@ import React, {
   Component,
 } from 'react'
 import {
+  Dimensions,
+  RefreshControl,
+  ScrollView,
   Text,
   View,
 } from 'react-native'
 import PropTypes from 'prop-types'
+import {
+  connect,
+} from 'react-redux'
+import moment from 'moment'
+import {
+  loadOccurrence,
+  updateOccurrenceStatus,
+} from '../actions/occurrence'
 import { css, withStyles } from '../styles/HackingTheFire'
 import BottomView from '../ui/BottomView'
 import StatusCard from '../ui/StatusCard'
 
-class Call extends Component {
+const { height, width } = Dimensions.get('window')
+
+class _Call extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ola: 'hello',
+      refreshing: false,
     }
   }
 
-  log = (text) => {
-    console.log(text)
+  onRefresh = () => {
+    this.setState({ refreshing: true })
+    this.props.loadOccurrence(this.props.occurrence.idOccurrence)
+  }
+
+  updateOccurrenceStatus = (type) => {
+    const payload = {
+      id: this.props.occurrence.idOccurrence,
+      status: [
+        {
+          type,
+          date: moment().utc(),
+        },
+      ],
+    }
+    this.props.updateOccurrenceStatus(payload)
+  }
+
+  renderStatus() {
+    const status = this.props.occurrence.status[this.props.occurrence.status.length - 1].type
+    const three = (
+      <StatusCard
+        title="Aguardando atendimento"
+        statusCode={3}
+        onPress={() => this.updateOccurrenceStatus(4)}
+      />
+    )
+    const four = (
+      <StatusCard
+        title="Em andamento"
+        statusCode={4}
+        timeLeft={33}
+        onPress={() => this.updateOccurrenceStatus(5)}
+      />
+    )
+    const five = (
+      <StatusCard
+        title="Em atendimento"
+        statusCode={5}
+        timeSpent={10}
+        onPressCheckout={() => {
+          this.updateOccurrenceStatus(6)
+        }}
+        onPressEmergency={() => this.props.navigation.navigate('medicalEmergency')}
+      />
+    )
+    if (status === 3) {
+      return three
+    }
+    if (status === 4) {
+      return four
+    }
+    return five
   }
 
   render() {
+    if (!this.props.occurrence.address) {
+      return (
+        <ScrollView
+          {...css(this.props.styles.container)}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefresh()}
+            />
+          }
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text>Houve um problema ao carregar a ocorrência. Faça um pull refresh
+            para tentar atualizar.</Text>
+        </ScrollView>
+      )
+    }
     return (
-      <BottomView navigation={this.props.navigation}>
+      <BottomView
+        navigation={this.props.navigation}
+        occurrence={this.props.occurrence}
+        updateOccurrence={() => this.updateOccurrenceStatus()}
+      >
         <Text {...css(this.props.styles.subtitle)}>Status da ocorrência:</Text>
-        <StatusCard
-          title="Despacho"
-          statusCode={2}
-          onPress={() => this.log('andamento init')}
-        />
-        <StatusCard
-          title="Em andamento"
-          statusCode={3}
-          timeLeft={33}
-          onPress={() => this.log('atendimento init')}
-        />
-        <StatusCard
-          title="Em atendimento"
-          statusCode={4}
-          timeSpent={10}
-          onPressCheckout={() => this.log('checkout init')}
-          onPressEmergency={() => this.log('emergencia init')}
-        />
-        <StatusCard
-          title="Finalizado"
-          statusCode={5}
-        />
+        {this.renderStatus()}
         <Text {...css(this.props.styles.subtitle)}>Dados do contribuinte:</Text>
         <View
           {...css(this.props.styles.dataContainer)}
@@ -60,7 +127,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Valterson Balduíno Romes Filho
+            {this.props.occurrence.name_solicitant}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -70,7 +137,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            (34) 9 9123-4567
+            {this.props.occurrence.phone}
           </Text>
         </View>
         <Text {...css(this.props.styles.subtitle)}>Local do acidente:</Text>
@@ -85,7 +152,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Uberlândia
+            {this.props.occurrence.city}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -95,7 +162,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Av. Estrela do Sul
+            {this.props.occurrence.address}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -105,7 +172,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            1573
+            {this.props.occurrence.number_address}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -115,7 +182,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Oswaldo Rezende
+            {this.props.occurrence.neighborhood}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -125,7 +192,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Próxima a Raulino Cota Pacheco
+            {this.props.occurrence.reference_address}
           </Text>
         </View>
         <Text {...css(this.props.styles.subtitle)}>Dados da vítima:</Text>
@@ -140,7 +207,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            André Luiz Campos Afonso do Vale
+            {this.props.occurrence.p[0].name_patient}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -150,7 +217,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Masculino
+            {this.props.occurrence.p[0].gender === 'M' ? 'Masculino' : 'Feminino'}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -160,15 +227,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id
-            libero a risus hendrerit bibendum sed sed sapien. Class aptent
-            taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-            himenaeos. Cras est diam, ornare feugiat nulla et, molestie luctus
-            leo. Nunc quis semper tortor, nec fermentum tellus. Curabitur
-            convallis orci condimentum lacus molestie, sit amet malesuada
-            ligula ultricies. Integer lacinia dolor non velit feugiat, in
-            ultrices nisi venenatis. Suspendisse in purus mollis, scelerisque
-            nisi non, euismod odio. Etiam tempor nec est sit amet vehicula.
+            {this.props.occurrence.p[0].occurrence_patient.complaint_patient}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -178,7 +237,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Não
+            {this.props.occurrence.emergency === 'Y' ? 'Sim' : 'Não'}
           </Text>
           <Text
             {...css(this.props.styles.dataLabel)}
@@ -188,15 +247,7 @@ class Call extends Component {
           <Text
             {...css(this.props.styles.dataText)}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id
-            libero a risus hendrerit bibendum sed sed sapien. Class aptent
-            taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-            himenaeos. Cras est diam, ornare feugiat nulla et, molestie luctus
-            leo. Nunc quis semper tortor, nec fermentum tellus. Curabitur
-            convallis orci condimentum lacus molestie, sit amet malesuada
-            ligula ultricies. Integer lacinia dolor non velit feugiat, in
-            ultrices nisi venenatis. Suspendisse in purus mollis, scelerisque
-            nisi non, euismod odio. Etiam tempor nec est sit amet vehicula.
+            {this.props.occurrence.comments}
           </Text>
         </View>
       </BottomView>
@@ -204,13 +255,39 @@ class Call extends Component {
   }
 }
 
-Call.propTypes = {
+_Call.propTypes = {
+  loadOccurrence: PropTypes.func,
   navigation: PropTypes.object.isRequired,
+  occurrence: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
+  updateOccurrenceStatus: PropTypes.func,
 }
 
-export default withStyles(({ color }) => ({
+_Call.defaultProps = {
+  loadOccurrence: () => {},
+  updateOccurrenceStatus: () => {},
+}
+
+const mapStateToProps = state => ({
+  occurrence: state.occurrence,
+})
+
+const mapActionToProps = {
+  loadOccurrence,
+  updateOccurrenceStatus,
+}
+
+const Call = connect(mapStateToProps, mapActionToProps)(_Call)
+
+export default withStyles(({ color, fontFamily }) => ({
+  container: {
+    position: 'absolute',
+    height,
+    top: 0,
+    width,
+  },
   subtitle: {
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 15,
@@ -226,12 +303,14 @@ export default withStyles(({ color }) => ({
   },
   dataLabel: {
     color: color.darkGrey,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   dataText: {
     color: color.darkGrey,
+    fontFamily: fontFamily.chantillySerialRegular,
     fontSize: 16,
     lineHeight: 28,
     marginBottom: 10,

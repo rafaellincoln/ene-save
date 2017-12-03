@@ -3,6 +3,10 @@ import * as types from './types'
 import Login from '../service/Login'
 import LostPassword from '../service/LostPassword'
 
+export const saveUserId = payload => (
+  dispatch => dispatch({ type: types.SAVE_USER_ID, payload })
+)
+
 export const fetchUser = () => (
   (dispatch) => {
     store
@@ -27,9 +31,12 @@ export const fetchUser = () => (
 )
 
 export const fetchLogin = payload => (
-  (dispatch) => {
+  (dispatch, state) => {
+    const newPayload = payload
+    const userId = state().user.userId
+    newPayload.userId = userId
     Login
-      .fetchLogin(payload)
+      .fetchLogin(newPayload)
       .then((res) => {
         if (res.success) {
           return dispatch({ type: types.LOGIN, payload: res })

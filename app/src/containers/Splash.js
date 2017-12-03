@@ -13,6 +13,7 @@ import {
 import {
   NavigationActions,
 } from 'react-navigation'
+import { fetchOccurrence } from '../actions/occurrence'
 import { fetchUser } from '../actions/user'
 import { withStyles } from '../styles/HackingTheFire'
 
@@ -22,6 +23,7 @@ const { width } = Dimensions.get('window')
 
 class _Splash extends Component {
   componentWillMount() {
+    this.props.fetchOccurrence()
     this.props.fetchUser()
   }
 
@@ -30,22 +32,24 @@ class _Splash extends Component {
   }
 
   isLogged(props) {
-    if (props.logged) {
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'home' })
-        ]
-      })
-      this.props.navigation.dispatch(resetAction)
-    } else {
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'login' })
-        ]
-      })
-      this.props.navigation.dispatch(resetAction)
+    if (props.userId) {
+      if (props.logged) {
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'home' }),
+          ],
+        })
+        this.props.navigation.dispatch(resetAction)
+      } else {
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'login' }),
+          ],
+        })
+        this.props.navigation.dispatch(resetAction)
+      }
     }
   }
 
@@ -63,6 +67,7 @@ class _Splash extends Component {
 }
 
 _Splash.propTypes = {
+  fetchOccurrence: PropTypes.func.isRequired,
   fetchUser: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
@@ -74,10 +79,12 @@ _Splash.defaultProps = {
 
 const mapStateToProps = state => ({
   logged: state.user.logged,
+  userId: state.user.userId,
   userUpdated: state.user.userUpdated,
 })
 
 const mapActionToProps = {
+  fetchOccurrence,
   fetchUser,
 }
 
