@@ -27,6 +27,7 @@ class BoxOccurrences extends React.Component {
     if (this.props.status === 6) {
       status = <div style={styles.sts6}>FINALIZADO</div>
     }
+
     return (
       <div className={style.box}>
         <p className={style.name}>{this.props.name}</p>
@@ -38,13 +39,13 @@ class BoxOccurrences extends React.Component {
             <p>{this.props.date}</p>
           </div>
           <div className="Grid-cell u-size1of12">
-            <button style={styles.button1}>x</button>
+            <button style={styles.button1}><img style={styles.img} src="/images/wifi.svg" /></button>
           </div>
           <div className="Grid-cell u-size1of12">
-            <button style={styles.button1}><img src="/images/shape.png" /></button>
+            <button style={styles.button1}><img style={styles.img} src="/images/shape.png" /></button>
           </div>
           <div className="Grid-cell u-size1of12">
-            <button style={styles.button2}>x</button>
+            <button style={styles.button2}><img style={styles.img} src="/images/send-mail.svg" /></button>
           </div>
           <div className="Grid-cell u-size2of12">
             <div style={styles.s}>{status}</div>
@@ -60,6 +61,11 @@ BoxOccurrences.propTypes = {
   text: PropTypes.string,
   date: PropTypes.string,
   status: PropTypes.number,
+}
+
+styles.img = {
+  width: '13px',
+  height: '18px',
 }
 
 styles.button1 = {
