@@ -12,8 +12,11 @@ function saveUser(payload) {
   .catch(err => console.log(err))
 }
 
-const leads = (state = initialState, { type, payload }) => {
+const user = (state = initialState, { type, payload }) => {
   switch (type) {
+    case types.SAVE_USER_ID: {
+      return { ...state, userId: payload, userUpdated: !state.userUpdated }
+    }
     case types.LOGIN: {
       let error = ''
       if (payload.error) {
@@ -39,4 +42,4 @@ const leads = (state = initialState, { type, payload }) => {
   }
 }
 
-export default leads
+export default user

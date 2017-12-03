@@ -89,10 +89,10 @@ export default withStyles(({ color }) => ({
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: 18,
+    fontSize: width < 360 ? 14 : 18,
   },
   value: {
-    fontSize: 46,
+    fontSize: width < 360 ? 38 : 46,
     fontWeight: 'bold',
   },
   progressContainer: {

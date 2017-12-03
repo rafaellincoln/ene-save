@@ -5,7 +5,7 @@ const initialState = {
 const bottomView = (state = initialState, { type, routeName }) => {
   switch (type) {
     case 'Navigation/BACK': {
-      const newPrevRoutes = state.prevRoutes
+      const newPrevRoutes = state.prevRoutes || []
       newPrevRoutes.pop()
       const lastRoute = newPrevRoutes[newPrevRoutes.length - 1]
       return {
