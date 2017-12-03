@@ -46,9 +46,6 @@ class MedicalTeamPageMainContainer extends React.Component {
           />
         </div>
         <div className="Grid-cell u-size1of12" />
-        <div className="Grid-cell">
-          <ContentSubtitle title="Local do Acidente" />
-        </div>
         <div className="Grid-cell u-size1of12" />
         <div className="Grid-cell u-size10of12">
           <TextField
